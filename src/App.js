@@ -1,9 +1,10 @@
 import React from "react";
 import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
-import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from "@material-ui/icons/Home";
 import CommentIcon from "@material-ui/icons/Comment";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { Home } from "./features/home/Home";
 
 function App() {
   const routes = ["/", "/tab2", "/tab3"];
@@ -49,11 +50,7 @@ function App() {
           )}
         />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => <React.Fragment>Home Tab</React.Fragment>}
-          />
+          <Route exact path="/" component={Home} />
           <Route
             exact
             path="/tab2"
