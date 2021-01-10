@@ -5,9 +5,10 @@ import HomeIcon from "@material-ui/icons/Home";
 import CommentIcon from "@material-ui/icons/Comment";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Home } from "./features/home/Home";
+import { PostsList } from "./features/posts/PostsList";
 
 function App() {
-  const routes = ["/", "/tab2", "/tab3"];
+  const routes = ["/", "/sayings", "/myprofile"];
   return (
     <div className="App">
       <BrowserRouter>
@@ -51,14 +52,10 @@ function App() {
         />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/sayings" component={PostsList} />
           <Route
             exact
-            path="/tab2"
-            render={() => <React.Fragment>Saying Tab</React.Fragment>}
-          />
-          <Route
-            exact
-            path="/tab3"
+            path="/myprofile"
             render={() => <React.Fragment>Profile Tab</React.Fragment>}
           />
           <Redirect to="/" />
