@@ -5,7 +5,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import CommentIcon from "@material-ui/icons/Comment";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Home } from "./features/home/Home";
-import { PostsList } from "./features/posts/PostsList";
+import { Posts } from "./features/posts/PostsList";
 
 function App() {
   const routes = ["/", "/sayings", "/myprofile"];
@@ -52,7 +52,7 @@ function App() {
         />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/sayings" component={PostsList} />
+          <Route exact path="/sayings" component={Posts} />
           <Route
             exact
             path="/myprofile"

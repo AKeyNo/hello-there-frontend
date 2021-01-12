@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,13 +9,15 @@ import Typography from "@material-ui/core/Typography";
 import { Avatar, CardHeader, Grid, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import { fetchPosts } from "./postsSlice";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
   },
 });
 
-let SinglePost = ({ author, content }) => {
+let SinglePost = ({ author, content, time }) => {
   const classes = useStyles();
 
   return (
@@ -27,7 +30,7 @@ let SinglePost = ({ author, content }) => {
           </IconButton>
         }
         title={author}
-        subheader="Date and Time"
+        subheader={time}
       />
       <CardContent>
         <Typography variant="body2" component="p">
@@ -41,29 +44,29 @@ let SinglePost = ({ author, content }) => {
   );
 };
 
-export const PostsList = () => {
+export const Posts = () => {
+  const dispatch = useDispatch();
+
+  const postState = useSelector((state) => state.posts);
+  const { postsList } = postState;
+  console.log(postsList);
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
   return (
     <Grid item container>
       <Grid item xs={false} sm={2} />
       <Grid item container xs={12} sm={8} spacing={2}>
-        <Grid item xs={12}>
-          <SinglePost
-            author="Test User 1"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-          ></SinglePost>
-        </Grid>
-        <Grid item xs={12}>
-          <SinglePost
-            author="Test User 2"
-            content="Sed id lorem tellus. Duis vel nisi quis ante ullamcorper feugiat."
-          ></SinglePost>
-        </Grid>
-        <Grid item xs={12}>
-          <SinglePost
-            author="Test User 3"
-            content="Morbi ac neque eu arcu fermentum luctus."
-          ></SinglePost>
-        </Grid>
+        {postsList &&
+          postsList.map((post) => (
+            <Grid item xs={12}><SinglePost
+              author={post.user.name}
+              content={post.content}
+              time={post.time}
+              key={post._id}
+            ></SinglePost></Grid>
+          ))}
       </Grid>
       <Grid item xs={false} sm={2} />
     </Grid>
