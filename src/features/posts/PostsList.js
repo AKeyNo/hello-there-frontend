@@ -48,7 +48,7 @@ export const Posts = () => {
   const dispatch = useDispatch();
 
   const postState = useSelector((state) => state.posts);
-  const { postsList } = postState;
+  const { postsList, status, error } = postState;
   console.log(postsList);
   useEffect(() => {
     dispatch(fetchPosts());
@@ -57,17 +57,27 @@ export const Posts = () => {
   return (
     <Grid item container>
       <Grid item xs={false} sm={2} />
-      <Grid item container xs={12} sm={8} spacing={2}>
-        {postsList &&
-          postsList.map((post) => (
-            <Grid item xs={12}><SinglePost
-              author={post.user.name}
-              content={post.content}
-              time={post.time}
-              key={post._id}
-            ></SinglePost></Grid>
-          ))}
-      </Grid>
+      {error && <div>ERROR: could not fetch posts</div>}
+      {status === "pending" ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <Grid item container xs={12} sm={8} spacing={2}>
+            {postsList &&
+              postsList.map((post) => (
+                <Grid item xs={12}>
+                  <SinglePost
+                    author={post.user.name}
+                    content={post.content}
+                    time={post.time}
+                    key={post._id}
+                  ></SinglePost>
+                </Grid>
+              ))}
+          </Grid>
+        </>
+      )}
+
       <Grid item xs={false} sm={2} />
     </Grid>
   );
