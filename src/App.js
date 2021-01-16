@@ -6,6 +6,8 @@ import CommentIcon from "@material-ui/icons/Comment";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Home } from "./features/home/Home";
 import { Posts } from "./features/posts/PostsList";
+import { SignInPage } from "./features/login/SignInPage";
+import { SignUpPage } from "./features/login/SignUpPage";
 
 function App() {
   const routes = ["/", "/sayings", "/myprofile"];
@@ -58,6 +60,8 @@ function App() {
             path="/myprofile"
             render={() => <React.Fragment>Profile Tab</React.Fragment>}
           />
+          <Route exact path="/login" component={SignInPage} />
+          <Route exact path="/signup" component={SignUpPage} />
           <Redirect to="/" />
         </Switch>
       </BrowserRouter>

@@ -77,7 +77,6 @@ export const Posts = () => {
           </Grid>
         </>
       )}
-
       <Grid item xs={false} sm={2} />
     </Grid>
   );
