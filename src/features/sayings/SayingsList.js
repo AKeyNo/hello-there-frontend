@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { Avatar, CardHeader, Grid, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import { fetchPosts } from "./postsSlice";
+import { fetchSayings } from "./sayingsSlice";
 
 const useStyles = makeStyles({
   root: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles({
   },
 });
 
-let SinglePost = ({ author, content, time }) => {
+let SingleSaying = ({ author, content, time }) => {
   const classes = useStyles();
 
   return (
@@ -44,34 +44,34 @@ let SinglePost = ({ author, content, time }) => {
   );
 };
 
-export const Posts = () => {
+export const Sayings = () => {
   const dispatch = useDispatch();
 
-  const postState = useSelector((state) => state.posts);
-  const { postsList, status, error } = postState;
-  console.log(postsList);
+  const sayingState = useSelector((state) => state.sayings);
+  const { sayingsList, status, error } = sayingState;
+  console.log(sayingsList);
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchSayings());
   }, [dispatch]);
 
   return (
     <Grid item container>
       <Grid item xs={false} sm={2} />
-      {error && <div>ERROR: could not fetch posts</div>}
+      {error && <div>ERROR: could not fetch sayings</div>}
       {status === "pending" ? (
         <div>Loading...</div>
       ) : (
         <>
           <Grid item container xs={12} sm={8} spacing={2}>
-            {postsList &&
-              postsList.map((post) => (
+            {sayingsList &&
+              sayingsList.map((saying) => (
                 <Grid item xs={12}>
-                  <SinglePost
-                    author={post.user.name}
-                    content={post.content}
-                    time={post.time}
-                    key={post._id}
-                  ></SinglePost>
+                  <SingleSaying
+                    author={saying.user.name}
+                    content={saying.content}
+                    time={saying.time}
+                    key={saying._id}
+                  ></SingleSaying>
                 </Grid>
               ))}
           </Grid>

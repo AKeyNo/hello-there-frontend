@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import postsReducer from '../features/posts/postsSlice'
+import sayingsReducer from '../features/sayings/sayingsSlice'
 //import usersReducer from '../features/users/usersSlice'
 
 export default configureStore({
   reducer: {
-    posts: postsReducer,
+    sayings: sayingsReducer,
   },
 });

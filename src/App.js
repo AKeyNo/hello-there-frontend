@@ -5,7 +5,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import CommentIcon from "@material-ui/icons/Comment";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Home } from "./features/home/Home";
-import { Posts } from "./features/posts/PostsList";
+import { Sayings } from "./features/sayings/SayingsList";
 import { SignInPage } from "./features/login/SignInPage";
 import { SignUpPage } from "./features/login/SignUpPage";
 
@@ -54,7 +54,7 @@ function App() {
         />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/sayings" component={Posts} />
+          <Route exact path="/sayings" component={Sayings} />
           <Route
             exact
             path="/myprofile"
