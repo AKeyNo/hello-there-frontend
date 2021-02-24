@@ -39,23 +39,27 @@ const useStyles = makeStyles((theme) => ({
 export const SignInPage = () => {
   const classes = useStyles();
   let history = useHistory();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
     
     try {
-      const user = await (axios.post(baseUrl, {email, password})).data;
+      const request = await (axios.post(baseUrl, {username, password}));
+      const user = request.data;
+      console.log(user);
       window.localStorage.setItem("loggedSayingUser", JSON.stringify(user));
 
-      console.log(`Sucessfully logged in as ${email}`);
-      setEmail("");
+      console.log(`Sucessfully logged in as ${username}`);
+      setUsername("");
       setPassword("");
       history.push('/');
     }
     catch (exception) {
       console.log("something went wrong...");
+      setUsername("");
+      setPassword("");
     }
   }
 
@@ -75,12 +79,12 @@ export const SignInPage = () => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
-            onChange={({ target }) => setEmail(target.value)}
+            onChange={({ target }) => setUsername(target.value)}
           />
           <TextField
             variant="outlined"
