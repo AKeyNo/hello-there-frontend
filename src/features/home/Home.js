@@ -1,7 +1,8 @@
 import React from "react";
-import { makeStyles, } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, Paper, Button } from "@material-ui/core";
 import background from "../../res/backgrounds/space.jpg";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ToLogin = React.forwardRef((props, ref) => (
+  <Link ref={ref} to="/login" {...props} />
+));
+
+const ToSignUp = React.forwardRef((props, ref) => (
+  <Link ref={ref} to="/signup" {...props} />
+));
+
 export const Home = () => {
   const classes = useStyles();
 
@@ -31,7 +40,7 @@ export const Home = () => {
       <Grid container spacing={1}>
         <Grid container item spacing={2} alignItems="center" justify="center">
           <Grid item lg={6} xs={12}>
-            <Paper className={classes.standardPaper} >
+            <Paper className={classes.standardPaper}>
               <Typography>
                 <h1>Hello There</h1>
                 <p>
@@ -44,13 +53,13 @@ export const Home = () => {
                   pulvinar euismod. Suspendisse vitae porta lorem. Curabitur
                   vitae sapien erat. Donec pharetra sed metus non euismod.
                 </p>
-                <Button>Sign Up</Button>
-                <Button>Log In</Button>
+                <Button component={ToSignUp}>Sign Up</Button>
+                <Button component={ToLogin}>Log In</Button>
               </Typography>
             </Paper>
           </Grid>
           <Grid item lg={6} xs={0}>
-            <img className={classes.img} src={background} alt="space"/>
+            <img className={classes.img} src={background} alt="space" />
           </Grid>
         </Grid>
       </Grid>

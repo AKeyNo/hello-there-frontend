@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Avatar, CardHeader, Grid, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-
+import { AddNewSayingForm } from "./AddNewSayingForm";
 import { fetchSayings } from "./sayingsSlice";
 
 const useStyles = makeStyles({
@@ -62,7 +62,18 @@ export const Sayings = () => {
         <div>Loading...</div>
       ) : (
         <>
-          <Grid item container xs={12} sm={8} spacing={2}>
+          <Grid
+            item
+            container
+            xs={12}
+            sm={8}
+            spacing={2}
+            alignItems="center"
+            justify="center"
+          >
+            <Grid item xs={12}>
+              <AddNewSayingForm></AddNewSayingForm>
+            </Grid>
             {sayingsList &&
               sayingsList.map((saying) => (
                 <Grid item xs={12}>

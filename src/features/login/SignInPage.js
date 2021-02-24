@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
+
+const baseUrl = "/api/login";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +38,26 @@ const useStyles = makeStyles((theme) => ({
 
 export const SignInPage = () => {
   const classes = useStyles();
+  let history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    
+    try {
+      const user = await (axios.post(baseUrl, {email, password})).data;
+      window.localStorage.setItem("loggedSayingUser", JSON.stringify(user));
+
+      console.log(`Sucessfully logged in as ${email}`);
+      setEmail("");
+      setPassword("");
+      history.push('/');
+    }
+    catch (exception) {
+      console.log("something went wrong...");
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -45,7 +69,7 @@ export const SignInPage = () => {
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleLogin}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -56,6 +80,7 @@ export const SignInPage = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={({ target }) => setEmail(target.value)}
           />
           <TextField
             variant="outlined"
@@ -67,6 +92,7 @@ export const SignInPage = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={({ target }) => setPassword(target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
