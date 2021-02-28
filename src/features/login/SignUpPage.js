@@ -11,6 +11,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+
+const baseUrl = "/api/users";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,6 +40,44 @@ const useStyles = makeStyles((theme) => ({
 export const SignUpPage = () => {
   const classes = useStyles();
 
+  let history = useHistory();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+
+    try {
+      const request = await axios.post(baseUrl, {
+        firstName,
+        lastName,
+        email,
+        username,
+        password,
+      });
+
+      const user = request.data;
+      console.log(`Sucessfully created an account for ${user}`);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setUsername("");
+      setPassword("");
+      history.push('/');
+    }
+    catch(exception) {
+      console.log("something went wrong...");
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setUsername("");
+      setPassword("");
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -45,7 +88,7 @@ export const SignUpPage = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSignUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -57,6 +100,7 @@ export const SignUpPage = () => {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={({ target }) => setFirstName(target.value)}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -68,6 +112,7 @@ export const SignUpPage = () => {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={({ target }) => setLastName(target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -79,6 +124,7 @@ export const SignUpPage = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={({ target }) => setEmail(target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -90,6 +136,7 @@ export const SignUpPage = () => {
                 label="Username"
                 name="username"
                 autoComplete="username"
+                onChange={({ target }) => setUsername(target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -102,6 +149,7 @@ export const SignUpPage = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={({ target }) => setPassword(target.value)}
               />
             </Grid>
             <Grid item xs={12}>
