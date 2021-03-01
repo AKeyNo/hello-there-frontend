@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, Paper, Button } from "@material-ui/core";
 import background from "../../res/backgrounds/space.jpg";
@@ -34,6 +34,15 @@ const ToSignUp = React.forwardRef((props, ref) => (
 
 export const Home = () => {
   const classes = useStyles();
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedSayingUser");
+    console.log(loggedUserJSON);
+    if (loggedUserJSON) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -44,17 +53,16 @@ export const Home = () => {
               <Typography>
                 <h1>Hello There</h1>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  euismod interdum dictum. Nam molestie nisl eget quam gravida,
-                  in molestie elit sodales. Phasellus massa mi, posuere quis
-                  mauris non, commodo cursus eros. Nullam vehicula non est eu
-                  sollicitudin. Fusce sodales feugiat tempor. Sed elit velit,
-                  condimentum vitae blandit ac, luctus et justo. Nulla lacinia
-                  pulvinar euismod. Suspendisse vitae porta lorem. Curabitur
-                  vitae sapien erat. Donec pharetra sed metus non euismod.
+                  Connect with those from around the globe and post your own sayings.
                 </p>
-                <Button component={ToSignUp}>Sign Up</Button>
-                <Button component={ToLogin}>Log In</Button>
+                {isLoggedIn === false ? (
+                  <div>
+                    <Button component={ToSignUp}>Sign Up</Button>
+                    <Button component={ToLogin}>Log In</Button>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
               </Typography>
             </Paper>
           </Grid>

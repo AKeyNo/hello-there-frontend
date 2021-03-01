@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -46,6 +46,15 @@ export const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedSayingUser");
+    console.log(loggedUserJSON);
+    if (loggedUserJSON) {
+      console.log(`${JSON.parse(loggedUserJSON).username} is already logged in!`);
+      history.push('/');
+    }
+  }, [history]);
 
   const handleSignUp = async (event) => {
     event.preventDefault();
