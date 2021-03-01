@@ -56,7 +56,7 @@ export const Sayings = () => {
 
   return (
     <Grid item container>
-      <Grid item xs={false} sm={2} />
+      <Grid item xs={false} sm={5}/>
       {error && <div>ERROR: could not fetch sayings</div>}
       {status === "pending" ? (
         <div>Loading...</div>
@@ -72,7 +72,7 @@ export const Sayings = () => {
             justify="center"
           >
             <Grid item xs={12}>
-              <AddNewSayingForm></AddNewSayingForm>
+              {!error ? <AddNewSayingForm></AddNewSayingForm> : <div></div>}
             </Grid>
             {sayingsList &&
               sayingsList.map((saying) => (
