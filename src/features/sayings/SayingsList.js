@@ -19,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-let SingleSaying = ({ author, content, time }) => {
+export const SingleSaying = ({ author, content, time }) => {
   const classes = useStyles();
 
   return (

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Grid, makeStyles, Paper } from "@material-ui/core";
+import { SingleSaying } from "../sayings/SayingsList";
+import axios from "axios";
+
+const baseUrl = "/api/users/info/";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   standardPaper: {
+    padding: theme.spacing(10),
     textAlign: "center",
   },
   img: {
@@ -19,33 +24,38 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: "100%",
   },
   avatar: {
-    width: '100px',
-    height: '100px',
-  }
+    width: "100px",
+    height: "100px",
+  },
 }));
 
 export const MyProfile = () => {
   const classes = useStyles();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({username: "", aboutMe: "", location: "", joined: null});
 
-  // when the page loads, grab the user's information
+  // when the page loads, grab the user's token and username
   useEffect(() => {
+    let username = "";
+
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(baseUrl + username);
+        const userInfo = response.data;
+        console.log(userInfo);
+        setUser(userInfo);
+      } catch (exception) {
+        console.error(exception);
+      }
+    };
     const loggedUserJSON = window.localStorage.getItem("loggedSayingUser");
     console.log(loggedUserJSON);
     if (loggedUserJSON) {
-      setUser(JSON.parse(loggedUserJSON));
+      username = JSON.parse(loggedUserJSON).username;
+      console.log(username);
+      fetchUserInfo();
     }
-  }, []);
+  }, [setUser]);
 
-  // grab the user's information
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedSayingUser");
-    console.log(loggedUserJSON);
-    if (loggedUserJSON) {
-      setUser(JSON.parse(loggedUserJSON));
-    }
-  }, []);
-  
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
@@ -53,12 +63,15 @@ export const MyProfile = () => {
         <Grid item xs={12} sm={8} align="center">
           <Paper>
             <Avatar alt="A" className={classes.avatar}></Avatar>
-            <div>@username</div>
-            <div>Edit your biography here!</div>
-            <div>Location: San Diego, CA Born: 09/09/1999 Joined: December 2020</div>
+            <div>@{user.username}</div>
+            <div>{user.aboutMe}</div>
+            <div>Location: {user.location} Joined: {user.joined}</div>
             <div>X Followers, Y Following</div>
           </Paper>
-          <Paper>test</Paper>
+          <SingleSaying
+            author={"Angelo"}
+            content={"This is a test saying."}
+          ></SingleSaying>
         </Grid>
         <Grid item xs={false} sm={2} />
       </Grid>
