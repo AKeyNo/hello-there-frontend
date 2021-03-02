@@ -8,6 +8,7 @@ import { Home } from "./features/home/Home";
 import { Sayings } from "./features/sayings/SayingsList";
 import { SignInPage } from "./features/login/SignInPage";
 import { SignUpPage } from "./features/login/SignUpPage";
+import { MyProfile } from "./features/users/MyProfile";
 
 function App() {
   const routes = ["/", "/sayings", "/myprofile"];
@@ -55,11 +56,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/sayings" component={Sayings} />
-          <Route
-            exact
-            path="/myprofile"
-            render={() => <React.Fragment>Profile Tab</React.Fragment>}
-          />
+          <Route exact path="/myprofile" component={MyProfile} />
           <Route exact path="/login" component={SignInPage} />
           <Route exact path="/signup" component={SignUpPage} />
           <Redirect to="/" />
