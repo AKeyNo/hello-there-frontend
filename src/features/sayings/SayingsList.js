@@ -12,6 +12,7 @@ import { AddNewSayingForm } from "./AddNewSayingForm";
 import { fetchSayings } from "./sayingsSlice";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles({
   root: {
@@ -71,7 +72,7 @@ export const Sayings = () => {
 
   return (
     <Grid item container>
-      <Grid item xs={false} sm={2} />
+      <Grid item xs={false} sm={3} />
       {error && (
         <Grid item sm={10} style={{ textAlign: "center" }}>
           <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -94,8 +95,8 @@ export const Sayings = () => {
           <Grid
             item
             container
-            xs={12}
-            sm={8}
+            xs={10}
+            sm={6}
             spacing={2}
             alignItems="center"
             justify="center"
@@ -117,7 +118,7 @@ export const Sayings = () => {
           </Grid>
         </>
       )}
-      <Grid item xs={false} sm={2} />
+      <Grid item xs={false} sm={3} />
     </Grid>
   );
 };

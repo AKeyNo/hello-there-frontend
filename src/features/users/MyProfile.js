@@ -58,9 +58,9 @@ export const MyProfile = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={false} sm={2} />
-        <Grid item xs={12} sm={8} align="center">
+      <Grid container>
+        <Grid item xs={false} sm={3} />
+        <Grid item xs={12} sm={6} align="center">
           <Paper>
             <Avatar alt="A" className={classes.avatar}></Avatar>
             <div>@{user.username}</div>
@@ -73,7 +73,7 @@ export const MyProfile = () => {
             content={"This is a test saying."}
           ></SingleSaying>
         </Grid>
-        <Grid item xs={false} sm={2} />
+        <Grid item xs={false} sm={3} />
       </Grid>
     </div>
   );
