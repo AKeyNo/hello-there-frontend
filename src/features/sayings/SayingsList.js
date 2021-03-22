@@ -6,13 +6,21 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Avatar, CardHeader, Grid, IconButton } from "@material-ui/core";
+import {
+  Avatar,
+  CardHeader,
+  Grid,
+  IconButton,
+  TextField,
+} from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { AddNewSayingForm } from "./AddNewSayingForm";
 import { fetchSayings } from "./sayingsSlice";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import axios from "axios";
+import { useHistory } from "react-router";
+
+const sayingUrl = "/api/sayings";
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +30,6 @@ const useStyles = makeStyles({
 
 export const SingleSaying = ({ author, content, time }) => {
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -47,15 +54,78 @@ export const SingleSaying = ({ author, content, time }) => {
   );
 };
 
+export const AddNewSayingForm = ({ token }) => {
+  const [sayingMessage, setSayingMessage] = useState("");
+  let history = useHistory();
+
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  const submitSaying = async (event) => {
+    event.preventDefault();
+
+    try {
+      const request = await axios.post(
+        sayingUrl,
+        { content: sayingMessage },
+        config
+      );
+      const saying = request.data;
+      console.log(saying);
+
+      setSayingMessage("");
+      history.pushState("/sayings");
+    } catch (exception) {
+      console.log("something went wrong...");
+      setSayingMessage("");
+    }
+  };
+
+  return (
+    <form onSubmit={submitSaying}>
+      <Grid item container spacing={0} justify="center" alignItems="center">
+        <Grid item xs={1}></Grid>
+        <Grid item xs={1}>
+          <Avatar></Avatar>
+        </Grid>
+        <Grid item xs={5}>
+          <TextField
+            id="standard-multiline-static"
+            label="What do you have to say?"
+            multiline
+            rows={4}
+            fullWidth={true}
+            onChange={({ target }) => setSayingMessage(target.value)}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <Button type="submit" variant="contained">
+            Post
+          </Button>
+        </Grid>
+        <Grid item xs={1}></Grid>
+      </Grid>
+    </form>
+  );
+};
+
 export const Sayings = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(true);
-
+  const [token, setToken] = useState("");
   const sayingState = useSelector((state) => state.sayings);
   const { sayingsList, status, error } = sayingState;
   console.log(sayingsList);
+
   useEffect(() => {
     dispatch(fetchSayings());
+    const loggedUserJSON = window.localStorage.getItem("loggedSayingUser");
+    console.log(loggedUserJSON);
+    const parsedUser = JSON.parse(loggedUserJSON);
+    if (loggedUserJSON) {
+      setToken(parsedUser.token);
+    }
   }, [dispatch]);
 
   const Alert = (props) => {
@@ -102,13 +172,17 @@ export const Sayings = () => {
             justify="center"
           >
             <Grid item xs={12}>
-              {!error ? <AddNewSayingForm></AddNewSayingForm> : <div></div>}
+              {!error ? (
+                <AddNewSayingForm token={token}></AddNewSayingForm>
+              ) : (
+                <div></div>
+              )}
             </Grid>
             {sayingsList &&
               sayingsList.map((saying) => (
                 <Grid item xs={12}>
                   <SingleSaying
-                    author={saying.user.name}
+                    author={saying.user.firstName}
                     content={saying.content}
                     time={saying.time}
                     key={saying._id}

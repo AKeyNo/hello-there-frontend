@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
+import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import { Home } from "./features/home/Home";
 import { Sayings } from "./features/sayings/SayingsList";
 import { SignInPage } from "./features/login/SignInPage";
